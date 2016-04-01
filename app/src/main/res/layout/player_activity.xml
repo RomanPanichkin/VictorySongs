@@ -67,15 +67,6 @@
             android:text="@string/resume"
             android:textSize="12sp">
         </Button>
-        <!--<Button-->
-            <!--android:id="@+id/btnStop"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:onClick="onClick"-->
-            <!--android:text="@string/stop"-->
-            <!--android:textSize="12sp">-->
-        <!--</Button>-->
         <CheckBox
             android:id="@+id/chbLoop"
             android:layout_width="wrap_content"
@@ -107,6 +98,11 @@
         </Button>
     </LinearLayout>
 
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/volume_seekBar"
+         />
 
 </LinearLayout>
 

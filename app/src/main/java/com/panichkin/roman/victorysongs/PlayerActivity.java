@@ -1,5 +1,6 @@
 package com.panichkin.roman.victorysongs;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
     CheckBox chbLoop;
     ArrayList<Song> songsArrayList;
     int songPosition;
+    android.widget.SeekBar volumeSeekbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
         releaseMP();
         songsArrayList = (ArrayList<Song>) getIntent().getExtras().getSerializable("list");
         songPosition = getIntent().getExtras().getInt("chosenSong");
-        mediaPlayer = MediaPlayer.create(this, (int)songsArrayList.get(songPosition).sourceId);
+        mediaPlayer = MediaPlayer.create(this, (int) songsArrayList.get(songPosition).sourceId);
         mediaPlayer.start();
         mediaPlayer.setWakeMode(this, PowerManager.PARTIAL_WAKE_LOCK);
         showLyrics(songsArrayList.get(songPosition));
@@ -49,6 +52,8 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
 
         mediaPlayer.setLooping(chbLoop.isChecked());
         mediaPlayer.setOnCompletionListener(this);
+
+        initVolumeControls();
     }
 
     private void showLyrics(Song currentSong) {
@@ -104,7 +109,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
                     songPosition++;
 
                 releaseMP();
-                mediaPlayer = MediaPlayer.create(this, (int)songsArrayList.get(songPosition).sourceId);
+                mediaPlayer = MediaPlayer.create(this, (int) songsArrayList.get(songPosition).sourceId);
                 mediaPlayer.start();
                 mediaPlayer.setWakeMode(this, PowerManager.PARTIAL_WAKE_LOCK);
                 showLyrics(songsArrayList.get(songPosition));
@@ -133,4 +138,30 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
         releaseMP();
     }
 
+    private void initVolumeControls() {
+        try {
+            volumeSeekbar = (SeekBar) findViewById(R.id.volume_seekBar);
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            volumeSeekbar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+            volumeSeekbar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+
+            volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onStopTrackingTouch(SeekBar arg0) {
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar arg0) {
+                }
+
+                @Override
+                public void onProgressChanged(SeekBar arg0, int progress, boolean arg2) {
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                            progress, 0);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
