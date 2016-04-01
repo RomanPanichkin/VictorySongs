@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/song_lyrics_textview"
+                />
+
+        </ScrollView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <Button
+            android:id="@+id/btnStartRaw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClickStart"
+            android:text="@string/raw"
+            android:textSize="12sp">
+        </Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/LL1">
+        <Button
+            android:id="@+id/btnPause"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/pause"
+            android:textSize="12sp">
+        </Button>
+        <Button
+            android:id="@+id/btnResume"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/resume"
+            android:textSize="12sp">
+        </Button>
+        <!--<Button-->
+            <!--android:id="@+id/btnStop"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:onClick="onClick"-->
+            <!--android:text="@string/stop"-->
+            <!--android:textSize="12sp">-->
+        <!--</Button>-->
+        <CheckBox
+            android:id="@+id/chbLoop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loop">
+        </CheckBox>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LL2">
+        <Button
+            android:id="@+id/btnBackward"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/backward"
+            android:textSize="12sp">
+        </Button>
+        <Button
+            android:id="@+id/btnForward"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/forward"
+            android:textSize="12sp">
+        </Button>
+    </LinearLayout>
+
+
+</LinearLayout>
+
