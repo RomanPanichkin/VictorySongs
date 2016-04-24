@@ -13,6 +13,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 
 public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
@@ -22,7 +23,10 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
     CheckBox chbLoop;
     ArrayList<Song> songsArrayList;
     int songPosition;
-    android.widget.SeekBar volumeSeekbar;
+    android.widget.SeekBar volumeSeekBar;
+    SeekBar trackProgressBar;
+    private double startTime = 0;
+    private double finalTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
         mediaPlayer.setOnCompletionListener(this);
 
         initVolumeControls();
+        initProgressControl();
     }
 
     private void showLyrics(Song currentSong) {
@@ -140,12 +145,12 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
 
     private void initVolumeControls() {
         try {
-            volumeSeekbar = (SeekBar) findViewById(R.id.volume_seekBar);
+            volumeSeekBar = (SeekBar) findViewById(R.id.volume_seekBar);
             audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-            volumeSeekbar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-            volumeSeekbar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+            volumeSeekBar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+            volumeSeekBar.setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
 
-            volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onStopTrackingTouch(SeekBar arg0) {
                 }
@@ -163,5 +168,19 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void initProgressControl() {
+        trackProgressBar = (SeekBar) findViewById(R.id.trackProgress_seekBar);
+        trackProgressBar.setClickable(false);
+        finalTime = mediaPlayer.getDuration();
+        startTime = mediaPlayer.getCurrentPosition();
+
+        TextView finalTimeTextView =(TextView) findViewById(R.id.finalTime_textView);
+        TextView startTimeTextView = (TextView) findViewById(R.id.startTime_textView);
+        startTimeTextView.setText(String.format("%d:%d",
+                TimeUnit.MILLISECONDS.toMinutes((long) startTime),
+                TimeUnit.MILLISECONDS.toSeconds((long) startTime),
+                TimeUnit.MINUTES.toSeconds(TimeUnit.MICROSECONDS.toMinutes((long) startTime))));
     }
 }
